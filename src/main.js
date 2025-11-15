@@ -31,10 +31,10 @@ const numPoints = 500;
 const radius = 20;
 
 const iconUrls = {
-  horse: "http://maps.google.com/mapfiles/kml/shapes/horsebackriding.png",
-  airport2: "http://maps.google.com/mapfiles/kml/shapes/airports.png",
-  volcano2: "http://maps.google.com/mapfiles/kml/shapes/volcano.png",
-  heliport2: "http://maps.google.com/mapfiles/kml/shapes/heliport.png",
+  horse: "https://maps.google.com/mapfiles/kml/shapes/horsebackriding.png",
+  airport2: "https://maps.google.com/mapfiles/kml/shapes/airports.png",
+  volcano2: "https://maps.google.com/mapfiles/kml/shapes/volcano.png",
+  heliport2: "https://maps.google.com/mapfiles/kml/shapes/heliport.png",
 };
 
 const icons = Object.keys(iconUrls);
