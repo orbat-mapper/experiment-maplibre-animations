@@ -1,3 +1,4 @@
+// Based on https://maplibre.org/maplibre-gl-js/docs/examples/animate-a-point/
 import "./style.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Map as MlMap, GlobeControl, NavigationControl } from "maplibre-gl";
