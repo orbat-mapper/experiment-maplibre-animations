@@ -1,12 +1,13 @@
 // Based on https://maplibre.org/maplibre-gl-js/docs/examples/animate-a-point/
 import "./style.css";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { Map as MlMap, GlobeControl, NavigationControl } from "maplibre-gl";
+import { GlobeControl, Map as MlMap, NavigationControl } from "maplibre-gl";
+import ms from "milsymbol";
 
 const map = new MlMap({
   container: "map",
-  style: "https://demotiles.maplibre.org/globe.json",
-  // style: "https://tiles.openfreemap.org/styles/positron",
+  // style: "https://demotiles.maplibre.org/globe.json",
+  style: "https://tiles.openfreemap.org/styles/positron",
   center: [0, 0],
   zoom: 2,
 });
@@ -28,13 +29,17 @@ map.on("style.load", () => {
 });
 
 const numPoints = 500;
-const radius = 20;
+const radius = 40;
 
 const iconUrls = {
-  horse: "https://maps.google.com/mapfiles/kml/shapes/horsebackriding.png",
-  airport2: "https://maps.google.com/mapfiles/kml/shapes/airports.png",
-  volcano2: "https://maps.google.com/mapfiles/kml/shapes/volcano.png",
-  heliport2: "https://maps.google.com/mapfiles/kml/shapes/heliport.png",
+  // horse: "https://maps.google.com/mapfiles/kml/shapes/horsebackriding.png",
+  // airport2: "https://maps.google.com/mapfiles/kml/shapes/airports.png",
+  // volcano2: "https://maps.google.com/mapfiles/kml/shapes/volcano.png",
+  // heliport2: "https://maps.google.com/mapfiles/kml/shapes/heliport.png",
+  "mil-1": "10031000141211004600",
+  "mil-2": "10063000001200000000",
+  "mil-3": "10064000001106050000",
+  "mil-4": "10041500001106030000",
 };
 
 const icons = Object.keys(iconUrls);
@@ -60,6 +65,21 @@ function createFeatures(timestamp) {
   );
 }
 
+function createMilsymbolImage(iconId, sidc, options = {}) {
+  const symb = new ms.Symbol(sidc, {
+    size: 20,
+    ...options,
+  });
+  const { width, height } = symb.getSize();
+  const data = symb
+    .asCanvas(2)
+    ?.getContext("2d")
+    ?.getImageData(0, 0, 2 * width, 2 * height);
+  if (data && !map.hasImage(iconId)) {
+    map.addImage(iconId, data, { pixelRatio: 2 });
+  }
+}
+
 function animateMarkers(timestamp) {
   const features = createFeatures(timestamp);
   map.getSource("point")?.setData({ type: "FeatureCollection", features });
@@ -68,9 +88,18 @@ function animateMarkers(timestamp) {
 
 map.on("load", async () => {
   // add icons to map
+  let image;
   for (const [icon, url] of Object.entries(iconUrls)) {
-    const image = await map.loadImage(url);
-    if (!map.hasImage(icon)) map.addImage(icon, image.data);
+    if (icon.startsWith("mil-")) {
+      createMilsymbolImage(icon, url, {
+        size: 20,
+        outlineWidth: 10,
+        outlineColor: "yellow",
+      });
+    } else {
+      image = await map.loadImage(url);
+      if (image && !map.hasImage(icon)) map.addImage(icon, image.data);
+    }
   }
 
   map.addSource("point", {
@@ -88,7 +117,8 @@ map.on("load", async () => {
       "icon-rotation-alignment": "map",
       "icon-overlap": "always",
       "icon-ignore-placement": true,
-      "icon-size": 0.5,
+      "icon-size": 1,
+      // "icon-size": 1,
     },
   });
 
