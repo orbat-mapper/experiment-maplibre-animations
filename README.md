@@ -2,13 +2,16 @@
 
 Try it online at https://orbat-mapper.github.io/experiment-maplibre-animations/
 
+Explore the code online:
+
 [Open in CodeSandbox](https://githubbox.com/orbat-mapper/experiment-maplibre-animations)
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/orbat-mapper/experiment-maplibre-animations)
 
-Screenshot:
+Check out [`src/main.js`](src/main.js) for the animation logic.
 
 ![](screenshot.png)
+
 
 ## Getting started
 
